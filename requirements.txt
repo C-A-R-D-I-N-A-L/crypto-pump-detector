@@ -3,3 +3,4 @@ ccxt
 pandas
 plotly
 scikit-learn
+matplotlib
