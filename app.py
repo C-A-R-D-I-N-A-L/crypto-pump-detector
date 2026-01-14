@@ -42,7 +42,14 @@ def fetch_data(symbol: str, timeframe: str, limit: int = 500) -> pd.DataFrame:
     Fetches historical OHLCV data from Binance API via CCXT.
     Returns a DataFrame with standardized timestamp.
     """
-    exchange = ccxt.binance()
+    exchange = ccxt.binance({
+        'enableRateLimit': True,
+        'options': {
+            'defaultType': 'spot'
+            },
+        'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    })
+    
     # Note: No proxy needed if deployed in EU/non-restricted region
     ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=limit)
 
@@ -153,4 +160,5 @@ if st.sidebar.button("🚀 Запустити сканування", type="prima
         except Exception as e:
             st.error(f"Помилка виконання: {str(e)}. Перевірте правильність тікера.")
 else:
+
     st.info("👈 Для початку роботи ініціюйте аналіз через панель управління.")
